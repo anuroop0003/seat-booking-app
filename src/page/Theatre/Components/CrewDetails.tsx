@@ -15,7 +15,7 @@ function DetailsCard({ name, role }: { name: string; role: string }) {
 
 function CrewDetails({ data }: Props) {
   return (
-    <div className="flex flex-col mx-5 my-5">
+    <div className="flex flex-col mx-5 my-20">
       <h1 className="text-white text-3xl font-bold">Crew Details</h1>
       <div className="flex flex-col gap-2 bg-white bg-opacity-10 backdrop-blur-lg border border-white rounded-xl shadow-lg p-5 mt-5">
         <h2 className="text-white text-xl font-semibold">Director</h2>
@@ -24,7 +24,7 @@ function CrewDetails({ data }: Props) {
         </h6>
       </div>
       <div>
-        <h2 className="text-white text-xl font-semibold mt-5">Actors</h2>
+        <h2 className="text-white text-xl font-semibold mt-10">Actors</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5">
           {data?.actors.map((actor) => (
             <DetailsCard

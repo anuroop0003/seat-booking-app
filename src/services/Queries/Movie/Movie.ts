@@ -8,7 +8,7 @@ export const useMovie = <T extends Methods>({
 }: {
   method: T;
   data?: {
-    id?: number | string;
+    movieId?: number | string;
   };
 }) => {
   switch (method) {
@@ -28,7 +28,7 @@ export const useMovie = <T extends Methods>({
         queryKey: ["get_single_movie", data],
         queryFn: async () => {
           const response = await axiosInstance({
-            url: `/movies/${data?.id}`,
+            url: `/movies/${data?.movieId}`,
             method: "get",
           });
           return response;

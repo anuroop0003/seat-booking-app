@@ -7,8 +7,12 @@ type Props = {
 };
 
 function MovieCard({ data }: Props) {
+  const url = `/theatre/${data?.title}/${data?.language}/${encodeURIComponent(
+    data?.censorship || ""
+  )}/${data?.id}`;
+
   return (
-    <Link to={`/theatre/${data?.id}`} className="flex flex-col gap-5">
+    <Link to={url} className="flex flex-col gap-5">
       <img
         className="w-full h-full object-cover"
         src={data?.posterUrl1}

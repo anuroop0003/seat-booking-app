@@ -1,8 +1,8 @@
 import { UseQueryResult } from "@tanstack/react-query";
 
-export type Methods = "LIST_THEATRE";
+export type Methods = "LIST_THEATRE" | "GET_SINGLE_THEATRE";
 
-type Seat = {
+export type Seat = {
   id: string;
   isBooked: boolean;
 };
@@ -14,20 +14,25 @@ type Row = {
   seats: Seat[];
 };
 
-type Seating = {
-  rows: Row[];
-};
+type Showtimes = string[];
 
-type ListTheatreResponse = {
-  id: string;
+export type ListTheatreResponse = {
   name: string;
   location: string;
   contact: string;
+  showtimes: Showtimes;
+  seating: Row[];
+  id: string;
   movieId: string;
-  showtimes: string[];
-  seating: Seating;
 };
 
-export type TheatreResponse = ListTheatreResponse[];
+export type TheatreResponse<T extends Methods> = T extends "LIST_THEATRE"
+  ? ListTheatreResponse[]
+  : T extends "GET_SINGLE_THEATRE"
+  ? ListTheatreResponse
+  : never;
 
-export type UseMovieResponseType = UseQueryResult<TheatreResponse, any>;
+export type UseTheatreResponseType<T extends Methods> = UseQueryResult<
+  TheatreResponse<T>,
+  any
+>;

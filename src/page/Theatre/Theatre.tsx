@@ -1,26 +1,17 @@
 import { useParams } from "react-router-dom";
+import Header from "../../components/Header/Header";
 import ScreenLoader from "../../components/ScreenLoader/ScreenLoader";
 import { useMovie } from "../../services/Queries/Movie/Movie";
-import { useTheatre } from "../../services/Queries/Theatre/Theatre";
 import CrewDetails from "./Components/CrewDetails";
-import Header from "./Components/Header";
 import MovieDetails from "./Components/MovieDetails";
+import RunningTheatre from "./Components/RunningTheatre";
 
 function Theatre() {
-  const { id } = useParams();
+  const { movie_id } = useParams();
 
-  const { data: theatre_list } = useTheatre({
-    method: "LIST_THEATRE",
-    data: { id: id as string },
-  });
-
-  const {
-    data: single_movie,
-    isFetching,
-    isLoading,
-  } = useMovie({
+  const { data, isFetching, isLoading } = useMovie({
     method: "GET_SINGLE_MOVIE",
-    data: { id: id as string },
+    data: { movieId: movie_id as string },
   });
 
   if (isLoading && isFetching) {
@@ -28,14 +19,14 @@ function Theatre() {
   }
 
   return (
-    <div className="container mx-auto my-20">
+    <div className="container mx-auto my-10 md:my-20">
       <Header
-        title={single_movie?.title}
-        language={single_movie?.language}
-        duration={single_movie?.duration}
+        title={`${data?.title} (${data?.language})`}
+        subtitle={data?.censorship}
       />
-      <MovieDetails data={single_movie} />
-      <CrewDetails data={single_movie} />
+      <MovieDetails data={data} />
+      <CrewDetails data={data} />
+      <RunningTheatre />
     </div>
   );
 }

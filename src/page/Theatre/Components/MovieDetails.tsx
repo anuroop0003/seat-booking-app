@@ -7,7 +7,7 @@ type Props = {
 
 function MovieDetails({ data }: Props) {
   return (
-    <div className="flex flex-col gap-5 mx-5">
+    <div className="flex flex-col mx-5 mt-5 mb-20">
       <div className="grid grid-rows-3 grid-flow-col gap-2 max-h-[400px] md:max-h-[600px] lg:max-h-[800px]">
         <img
           className="w-full h-full row-span-3 object-cover rounded-lg"
@@ -28,13 +28,7 @@ function MovieDetails({ data }: Props) {
           loading="lazy"
         />
       </div>
-      <div className="flex flex-col gap-2">
-        <h1 className="text-white text-lg font-semibold whitespace-nowrap">
-          {data?.title}
-        </h1>
-        <h6 className="text-white text-xs font-medium -mt-1.5">
-          ({data?.language})
-        </h6>
+      <div className="flex flex-col gap-2 mt-10">
         <h6 className="text-white text-sm font-medium">
           {data?.duration} - {data?.genre.join(", ")}
         </h6>
@@ -44,7 +38,9 @@ function MovieDetails({ data }: Props) {
         </h6>
         <div>
           <h2 className="text-white text-xl font-semibold mt-5">Summary</h2>
-          <h6 className="text-white text-base font-medium">{data?.summary}</h6>
+          <h6 className="text-white text-base font-medium mt-2.5">
+            {data?.summary}
+          </h6>
         </div>
       </div>
     </div>
