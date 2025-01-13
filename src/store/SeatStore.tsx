@@ -8,29 +8,26 @@ export type StoreSeat = {
 
 type SeatStore = {
   selectedSeats: StoreSeat[];
-  toggleSeat: (seat: StoreSeat) => void;
+  selectSeat: (seat: StoreSeat) => void;
+  unSelectSeat: (id: string) => void;
   clearAll: () => void;
 };
 
 export const useSeatStore = create<SeatStore>((set) => ({
   selectedSeats: [],
 
-  // Toggle Function to Add or Remove Seat
-  toggleSeat: (seat) =>
+  // Toggle Function to Add Particular Seat
+  selectSeat: (seat) =>
     set((state) => {
-      const isSelected = state.selectedSeats.some(
-        (item) => item.id === seat.id
-      );
+      return { selectedSeats: [...state.selectedSeats, seat] };
+    }),
 
-      if (isSelected) {
-        return {
-          selectedSeats: state.selectedSeats.filter(
-            (item) => item.id !== seat.id
-          ),
-        };
-      } else {
-        return { selectedSeats: [...state.selectedSeats, seat] };
-      }
+  // UnSelect Function to Remove Particular Seat
+  unSelectSeat: (id) =>
+    set((state) => {
+      return {
+        selectedSeats: state.selectedSeats.filter((item) => item.id !== id),
+      };
     }),
 
   // Function to Clear All

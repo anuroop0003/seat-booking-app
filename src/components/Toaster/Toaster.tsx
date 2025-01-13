@@ -8,7 +8,7 @@ const Toaster: React.FC = () => {
 
   return (
     <div
-      className={`w-full flex justify-center absolute top-0 left-0 transition-all duration-300 ease-in-out ${
+      className={`w-full z-20 flex justify-center fixed top-0 left-0 transition-all duration-300 ease-in-out ${
         isOpen
           ? "opacity-100 translate-y-0 visible"
           : "opacity-0 -translate-y-full invisible"

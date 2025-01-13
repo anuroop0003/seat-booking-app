@@ -23,7 +23,7 @@ const Summary: React.FC = () => {
 
   return (
     <div
-      className={`bg-white fixed left-0 bottom-0 w-full flex justify-between items-center p-2.5 transition-all duration-300 ease-in-out ${
+      className={`bg-white fixed left-0 bottom-0 w-full flex flex-col md:flex-row md:justify-between md:items-center gap-5 p-2.5 transition-all duration-300 ease-in-out ${
         summaryDetails.total_price
           ? "opacity-100 translate-y-0 visible"
           : "opacity-0 translate-y-full invisible"
@@ -35,10 +35,10 @@ const Summary: React.FC = () => {
       }}
     >
       <div className="transition-opacity duration-300 ease-in-out">
-        <h6 className="text-black text-xl font-normal">
+        <h6 className="text-black text-sm md:text-xl font-normal">
           Seats Selected: <strong>{summaryDetails?.seats?.join(", ")}</strong>
         </h6>
-        <h1 className="text-black text-xl font-normal">
+        <h1 className="text-black text-sm md:text-xl font-normal">
           Total: <strong>{summaryDetails?.total_price}</strong>
         </h1>
       </div>

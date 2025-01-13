@@ -12,7 +12,7 @@ type TierProps = {
 };
 
 const Tier: React.FC<TierProps> = ({ tier }) => {
-  const { toggleSeat, selectedSeats } = useSeatStore();
+  const { selectSeat, selectedSeats, unSelectSeat } = useSeatStore();
   const { toggleToast } = useToastStore();
 
   const colorGenerator = (name: "Silver" | "Gold" | "Platinum") => {
@@ -29,13 +29,18 @@ const Tier: React.FC<TierProps> = ({ tier }) => {
     selectedSeats.some((seat) => seat.id === seatId);
 
   const handleToggleSeat = (row: StoreSeat) => {
-    if (selectedSeats.length === 8) {
-      toggleToast({
-        isOpen: true,
-        message: "Maximum 8 Seats Only Allowed",
-      });
+    const isSelected = selectedSeats.some((seat) => seat.id === row.id);
+    if (isSelected) {
+      return unSelectSeat(row.id);
     } else {
-      toggleSeat(row);
+      if (selectedSeats.length >= 8) {
+        return toggleToast({
+          isOpen: true,
+          message: "Maximum 8 Seats Only Allowed",
+        });
+      } else {
+        return selectSeat(row);
+      }
     }
   };
 
