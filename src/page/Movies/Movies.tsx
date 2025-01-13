@@ -3,10 +3,10 @@ import ScreenLoader from "../../components/ScreenLoader/ScreenLoader";
 import { useMovie } from "../../services/Queries/Movie/Movie";
 import MovieCard from "./Components/MovieCard";
 
-function Movies() {
+const Movies = () => {
   const { data, isLoading, isFetching } = useMovie({ method: "LIST_MOVIES" });
 
-  if (isLoading && isFetching) {
+  if (!data && isLoading && isFetching) {
     return <ScreenLoader />;
   }
 
@@ -23,6 +23,6 @@ function Movies() {
       )}
     </div>
   );
-}
+};
 
 export default Movies;

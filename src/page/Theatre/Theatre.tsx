@@ -6,7 +6,7 @@ import CrewDetails from "./Components/CrewDetails";
 import MovieDetails from "./Components/MovieDetails";
 import RunningTheatre from "./Components/RunningTheatre";
 
-function Theatre() {
+const Theatre = () => {
   const { movie_id } = useParams();
 
   const { data, isFetching, isLoading } = useMovie({
@@ -14,7 +14,7 @@ function Theatre() {
     data: { movieId: movie_id as string },
   });
 
-  if (isLoading && isFetching) {
+  if (!data && isLoading && isFetching) {
     return <ScreenLoader />;
   }
 
@@ -29,6 +29,6 @@ function Theatre() {
       <RunningTheatre />
     </div>
   );
-}
+};
 
 export default Theatre;

@@ -1,31 +1,49 @@
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import screen_image from "../../assets/screen.svg";
 import Header from "../../components/Header/Header";
 import ScreenLoader from "../../components/ScreenLoader/ScreenLoader";
 import { useTheatre } from "../../services/Queries/Theatre/Theatre";
 import { Seat } from "../../services/Queries/Theatre/type";
+import { useSeatStore } from "../../store/SeatStore";
+import SeatingLegend from "./Components/SeatingLegend";
+import Summary from "./Components/Summary";
+import Tier from "./Components/Tier";
 
-type Tier = {
-  name: string;
+type TierType = {
+  name: "Silver" | "Gold" | "Platinum";
   price: number;
   seats: Seat[][];
 };
 
-function Screen() {
-  const { theatre_id, movie_name, movie_id, movie_language, movie_censorship } =
-    useParams();
+const Screen = () => {
+  const {
+    theatre_id,
+    movie_name,
+    movie_id,
+    movie_language,
+    movie_censorship,
+    movie_timing,
+    theatre_name,
+  } = useParams();
 
   const { data, isFetching, isLoading } = useTheatre({
     method: "GET_SINGLE_THEATRE",
     data: { movieId: movie_id, theatreId: theatre_id },
   });
 
-  if (isLoading && isFetching) {
+  const { clearAll } = useSeatStore();
+
+  useEffect(() => {
+    return () => clearAll();
+  }, []);
+
+  if (!data && isLoading && isFetching) {
     return <ScreenLoader />;
   }
 
   const seating_data = data?.seating?.reduce(
-    (acc: Tier[], { tier, price, seats }) => {
+    (acc: TierType[], { tier, price, seats }) => {
       const existing_tier = acc?.find((item) => item?.name === tier);
       if (existing_tier) {
         existing_tier?.seats?.push(seats);
@@ -41,68 +59,26 @@ function Screen() {
     []
   );
 
-  console.log("temp", seating_data);
-
-  const renderTier = (tier: Tier) => {
-    return (
-      <div key={tier.name} className="flex flex-col gap-2.5">
-        <span className="text-white text-sm border-b-[0.5px] border-white/30 mb-2">
-          {tier?.name} Rs: {tier?.price}
-        </span>
-        {tier?.seats?.map((rows, i) => (
-          <div key={i} className="flex gap-5 justify-center whitespace-nowrap">
-            {rows?.map((row) => (
-              <span
-                key={row?.id}
-                className={`text-white w-8 h-8 shrink-0 text-sm inline-flex justify-center items-center bg-primary-yellow rounded-md shadow-lg ${
-                  row?.isBooked
-                    ? "bg-opacity-10 backdrop-blur-lg cursor-not-allowed"
-                    : "bg-opacity-10 backdrop-blur-lg border border-primary-yellow cursor-pointer hover:shadow-sm"
-                }`}
-              >
-                {row?.id}
-              </span>
-            ))}
-          </div>
-        ))}
-      </div>
-    );
-  };
-
   return (
-    <div className="container mx-auto my-10 md:my-20">
+    <div className="container relative mx-auto my-10 md:my-20">
       <Header
         title={`${movie_name} (${movie_language})`}
         subtitle={movie_censorship}
       />
-      <div className="flex flex-col gap-10 items-center mx-5 my-20 pb-5 overflow-x-auto">
-        <img className="max-w-lg" src={screen_image} alt="screen image" />
-        <div className="flex flex-col gap-5 h-full">
-          {seating_data?.map((tier) => renderTier(tier))}
-        </div>
-        <div className="my-10 flex gap-10 justify-center whitespace-nowrap">
-          <span className="inline-flex flex-col sm:flex-row gap-2 justify-center items-center">
-            <span className="text-white w-8 h-8 text-sm inline-flex justify-center items-center bg-primary-yellow rounded-md shadow-lg bg-opacity-10 backdrop-blur-lg cursor-not-allowed">
-              R
-            </span>
-            <span className="text-white text-sm">Reserved</span>
-          </span>
-          <span className="inline-flex flex-col sm:flex-row gap-2 justify-center items-center">
-            <span className="text-white w-8 h-8 text-sm inline-flex justify-center items-center bg-primary-yellow rounded-md shadow-lg bg-opacity-10 backdrop-blur-lg border border-primary-yellow cursor-pointer hover:shadow-sm">
-              U
-            </span>
-            <span className="text-white text-sm">Un Reserved</span>
-          </span>{" "}
-          <span className="inline-flex flex-col sm:flex-row gap-2 justify-center items-center">
-            <span className="text-white w-8 h-8 text-sm inline-flex justify-center items-center bg-primary-yellow rounded-md shadow-lg bg-opacity-10 backdrop-blur-lg cursor-not-allowed">
-              S
-            </span>
-            <span className="text-white text-sm">Selected</span>
-          </span>
-        </div>
+      <Header title={theatre_name} subtitle={`Show Time: ${movie_timing}`} />
+      <div className="flex flex-col items-center w-full gap-2 my-20">
+        <h3 className="text-white text-xs font-light">Towards Screen</h3>
+        <img className="w-3/4 md:w-1/2" src={screen_image} alt="screen image" />
       </div>
+      <div className="flex flex-col mx-5 my-20 pb-5 overflow-x-auto">
+        {seating_data?.map((tier) => (
+          <Tier key={tier.name} tier={tier} />
+        ))}
+      </div>
+      <SeatingLegend />
+      <Summary />
     </div>
   );
-}
+};
 
 export default Screen;

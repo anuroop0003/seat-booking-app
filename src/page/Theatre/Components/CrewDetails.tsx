@@ -1,19 +1,23 @@
+import React from "react";
 import { ListMoviesResponse } from "../../../services/Queries/Movie/type";
 
 type Props = {
   data: ListMoviesResponse | undefined;
 };
 
-function DetailsCard({ name, role }: { name: string; role: string }) {
+const DetailsCard: React.FC<{ name: string; role: string }> = ({
+  name,
+  role,
+}) => {
   return (
     <div className="flex flex-col items-center text-center gap-2 bg-primary-yellow bg-opacity-10 backdrop-blur-lg border border-primary-yellow rounded-xl shadow-lg p-5">
       <h6 className="text-white text-base font-medium">{name}</h6>
       <h6 className="text-white text-sm font-medium">as {role}</h6>
     </div>
   );
-}
+};
 
-function CrewDetails({ data }: Props) {
+const CrewDetails: React.FC<Props> = ({ data }) => {
   return (
     <div className="flex flex-col mx-5 my-20">
       <h1 className="text-white text-3xl font-bold">Crew Details</h1>
@@ -37,6 +41,6 @@ function CrewDetails({ data }: Props) {
       </div>
     </div>
   );
-}
+};
 
 export default CrewDetails;

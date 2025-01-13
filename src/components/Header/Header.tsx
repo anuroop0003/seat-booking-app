@@ -8,9 +8,9 @@ type Props = {
 const Header: React.FC<Props> = ({ title, subtitle = undefined }) => {
   return (
     <header className="m-5">
-      <h3 className="text-white text-xl font-semibold">{title}</h3>
+      <h1 className="text-white text-xl font-semibold">{title}</h1>
       {subtitle && (
-        <h1 className="text-white text-base font-light">{subtitle}</h1>
+        <h3 className="text-white text-base font-light">{subtitle}</h3>
       )}
     </header>
   );

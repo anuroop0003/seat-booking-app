@@ -1,3 +1,4 @@
+import React from "react";
 import star_icon from "../../../assets/star.svg";
 import { ListMoviesResponse } from "../../../services/Queries/Movie/type";
 
@@ -5,7 +6,7 @@ type Props = {
   data: ListMoviesResponse | undefined;
 };
 
-function MovieDetails({ data }: Props) {
+const MovieDetails: React.FC<Props> = ({ data }) => {
   return (
     <div className="flex flex-col mx-5 mt-5 mb-20">
       <div className="grid grid-rows-3 grid-flow-col gap-2 max-h-[400px] md:max-h-[600px] lg:max-h-[800px]">
@@ -45,6 +46,6 @@ function MovieDetails({ data }: Props) {
       </div>
     </div>
   );
-}
+};
 
 export default MovieDetails;

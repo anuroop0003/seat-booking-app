@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import star_icon from "../../../assets/star.svg";
 import { ListMoviesResponse } from "../../../services/Queries/Movie/type";
@@ -6,7 +7,7 @@ type Props = {
   data: ListMoviesResponse | undefined;
 };
 
-function MovieCard({ data }: Props) {
+const MovieCard: React.FC<Props> = ({ data }) => {
   const url = `/theatre/${data?.title}/${data?.language}/${encodeURIComponent(
     data?.censorship || ""
   )}/${data?.id}`;
@@ -36,6 +37,6 @@ function MovieCard({ data }: Props) {
       </div>
     </Link>
   );
-}
+};
 
 export default MovieCard;
