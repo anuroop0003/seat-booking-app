@@ -2,7 +2,7 @@ import React from "react";
 
 const SeatingLegend: React.FC = () => {
   return (
-    <div className="py-10 flex gap-10 justify-center whitespace-nowrap">
+    <div className="pb-40 sm:pb-20 flex gap-10 justify-center whitespace-nowrap">
       <span className="inline-flex flex-col sm:flex-row gap-2 justify-center items-center">
         <span className="text-white w-8 h-8 text-sm inline-flex justify-center items-center bg-primary-yellow rounded-md shadow-lg bg-opacity-10 backdrop-blur-lg cursor-not-allowed">
           R
